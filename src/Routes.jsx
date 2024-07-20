@@ -17,6 +17,7 @@ import SettingsProfile from "./pages/Dashboard/Settings/Profile";
 import SettingsProfilePreview from "./pages/Dashboard/Settings/ProfilePreview";
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
 import StaffDetailsAndTransactions from "./pages/Dashboard/LoanManagement/StaffDetailsAndTransactions";
+import PageNotFound from "./pages/Error/PageNotFound";
 
 const MyRoutes = () => (
   <Routes>
@@ -27,6 +28,11 @@ const MyRoutes = () => (
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+
+      <Route
+        path="*"
+        element={<PageNotFound />}
+      />
     </Route>
     <Route element={<AuthOutlet fallbackPath='/login' />}>
       <Route element={<AppLayout />}>

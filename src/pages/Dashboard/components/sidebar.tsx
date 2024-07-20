@@ -75,13 +75,13 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             text="Loan Management"
           />
           <NavItem
-            to="/staff-management"
+            to="/user-management"
             iconSrc={
-              pathname === "/staff-management"
+              pathname === "/user-management"
                 ? images.staffManagementLightIcon
                 : images.staffManagementDarkIcon
             }
-            text="Staff Management"
+            text="User Management"
           />
           <NavItem
             to="/settings"
