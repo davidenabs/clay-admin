@@ -32,7 +32,7 @@ const statusColors = {
 };
 
 interface StaffListProps {
-  staffs: IStaff[];
+  staffs: any;
   employers: IStaff[];
   merchants: IStaff[];
   admins: IStaff[];
@@ -75,8 +75,9 @@ const StaffList: React.FC<StaffListProps> = ({
   ]);
 
   useEffect(() => {
-    const mapToModel = (data: any[], modelClass: any) =>
-      data.map((item: any) => new modelClass(item));
+    const mapToModel = (data: any[], modelClass?: any) => 
+      data.map((item: any) => modelClass ? new modelClass(item) : item);
+    
 
     let dataToMap: any[] = [];
     let modelClass: any;
@@ -87,7 +88,7 @@ const StaffList: React.FC<StaffListProps> = ({
       //   break;
       case "Employer":
         dataToMap = employers;
-        modelClass = EmployerModel;
+        modelClass = null;
         break;
       case "Merchant":
         dataToMap = merchants;
@@ -95,11 +96,11 @@ const StaffList: React.FC<StaffListProps> = ({
         break;
       case "Staff":
         dataToMap = staffs;
-        modelClass = StaffModel;
+        modelClass = null;
         break;
       default:
         dataToMap = staffs;
-        modelClass = StaffModel; // Default to StaffModel for mixed data
+        modelClass = null; // Default to StaffModel for mixed data
         break;
     }
 
@@ -155,7 +156,6 @@ const StaffList: React.FC<StaffListProps> = ({
           <StaffTable
             data={filteredModels}
             currentPage={currentPage}
-            handleOnclick={handleOnclick}
           />
         );
       default:
@@ -163,7 +163,6 @@ const StaffList: React.FC<StaffListProps> = ({
           <StaffTable
             data={filteredModels}
             currentPage={currentPage}
-            handleOnclick={handleOnclick}
           />
         );
     }
@@ -214,7 +213,7 @@ const StaffList: React.FC<StaffListProps> = ({
       ) : (
         <div className="overflow-x-auto">
           <Table>{renderTable()}</Table>
-          {/* <Pagination
+          <Pagination
             currentPage={currentPage}
             totalPages={
               activeTab === "Admin"
@@ -233,7 +232,7 @@ const StaffList: React.FC<StaffListProps> = ({
                   )
             }
             onPageChange={handlePageChange}
-          /> */}
+          />
         </div>
       )}
     </div>

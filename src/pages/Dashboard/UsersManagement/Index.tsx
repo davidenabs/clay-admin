@@ -10,10 +10,16 @@ const UsersManagement = () => {
   const [admins, setAdmins] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalStaffPages, setTotalStaffPages] = useState(1);
-  const [totalEmployerPages, setTotalEmployerPages] = useState(1);
-  const [totalMerchantPages, setTotalMerchantPages] = useState(1);
-  const [totalAdminPages, setTotalAdminPages] = useState(1);
+  const [totalStaffPages, setTotalStaffPages] = useState(0);
+  const [totalEmployerPages, setTotalEmployerPages] = useState(0);
+  const [totalMerchantPages, setTotalMerchantPages] = useState(0);
+  const [totalAdminPages, setTotalAdminPages] = useState(0);
+
+  const [totalStaffTotalItems, setTotalStaffTotalItems] = useState(0);
+  const [totalEmployerTotalItems, setTotalEmployerTotalItems] = useState(0);
+  const [totalMerchantTotalItems, setTotalMerchantTotalItems] = useState(0);
+  const [totalAdminTotalItems, setTotalAdminTotalItems] = useState(0);
+
   const itemsPerPage = 10;
   const apiManager = createApiManager();
 
@@ -25,7 +31,7 @@ const UsersManagement = () => {
           fetchedStaffs,
           fetchedEmployers,
           fetchedMerchants,
-          fetchedAdmins,
+          // fetchedAdmins,
         ] = await Promise.all([
           apiManager.getStaffs(page, itemsPerPage),
           apiManager.getEmployers(page, itemsPerPage),
@@ -38,11 +44,15 @@ const UsersManagement = () => {
         setMerchants(fetchedMerchants.data.users);
         // setAdmins(fetchedAdmins.data.users);
 
-        // Assuming totalPages is the same for all endpoints
         setTotalStaffPages(fetchedStaffs.data.totalPages);
         setTotalEmployerPages(fetchedEmployers.data.totalPages);
         setTotalMerchantPages(fetchedMerchants.data.totalPages);
-        setTotalAdminPages(fetchedAdmins.data.totalPages);
+        // setTotalAdminPages(fetchedAdmins.data.totalPages);
+
+        setTotalStaffTotalItems(fetchedStaffs.data.totalItems);
+        setTotalEmployerTotalItems(fetchedEmployers.data.totalItems);
+        setTotalMerchantTotalItems(fetchedMerchants.data.totalUsers);
+        // setTotalAdminTotalItems(fetchedAdmins.data.totalItems);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -62,10 +72,10 @@ const UsersManagement = () => {
   return (
     <div className="space-y-10 px-12 -mt-10 max-md:max-w-full">
       <TopCards
-        staffs={totalStaffPages}
-        employers={totalEmployerPages}
-        merchants={totalMerchantPages}
-        // admins={totalAdminPages}
+        staffs={totalStaffTotalItems}
+        employers={totalEmployerTotalItems}
+        merchants={totalMerchantTotalItems}
+        // admins={totalAdminTotalItems}
       />
       <StaffList
         staffs={staffs}

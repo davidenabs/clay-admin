@@ -28,7 +28,6 @@ const createApiManager = () => {
     }),
     getEmployers: memoize(async (page = 1, itemsPerPage = 10) => {
       const url = ENDPOINTS.EMPLOYERS(page, itemsPerPage);
-      console.log(url);
       return await get(url);
     }),
     getMerchants: memoize(async (page = 1, itemsPerPage = 10) => {
@@ -100,6 +99,32 @@ const createApiManager = () => {
       const url = ENDPOINTS.EMPLOYERS_BY_ID(employerId);
       return await get(url);
     }),
+
+    getAccountByUserId: memoize(async (userId) => {
+      const url = ENDPOINTS.USER_ACCOUNT(userId);
+      return await get(url);
+    }),
+    getCardByUserId: memoize(async (userId) => {
+      const url = ENDPOINTS.USER_CARD(userId);
+      return await get(url);
+    }),
+    setPin: memoize(async (data) => {
+      const url = ENDPOINTS.SET_PIN(data.cardNumber);
+      return await put(url, data);
+    }),
+    setLimit: memoize(async (data) => {
+      const url = ENDPOINTS.UPDATE_CARD(data.cardNumber);
+      return await put(url, data);
+    }),
+    fundAccount: memoize(async (data) => {
+      const url = ENDPOINTS.STAFF_LOAN;
+      return await post(url, data);
+    }),
+    createCard: memoize(async (data) => {
+      const url = ENDPOINTS.CREATE_CARD;
+      return await post(url, data);
+    }),
+    //
   };
 };
 // STAFFS

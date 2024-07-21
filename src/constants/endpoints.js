@@ -81,6 +81,13 @@ const ENDPOINTS = {
   UPDATE_PASSWORD: `/auth/employer/update-password`,
   ACTIVE_LOAN: `${BASE_URL}/loans/active`,
   INITIALIZE_PAYMENT: `${BASE_URL}/payment`,
+  USER_ACCOUNT: (userId) => `${BASE_URL}/cards/account/${userId}`,
+  USER_CARD: (userId) => `${BASE_URL}/cards/${userId}`,
+  SET_PIN: (cardNumber) => `${BASE_URL}/cards/${cardNumber}/set-pin`,
+  UPDATE_CARD: (cardNumber) => `${BASE_URL}/cards/${cardNumber}/update`,
+  STAFF_LOAN: `${BASE_URL}/loan/staff-apply`,
+  CREATE_CARD: `${BASE_URL}/cards`,
+  // update /loan/staff-apply cards
 };
 
 export default ENDPOINTS;

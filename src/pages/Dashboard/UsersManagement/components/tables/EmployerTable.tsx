@@ -9,7 +9,6 @@ import {
 } from "../../../../../components/table/table";
 import { formatDate, formatTime } from "../../../../../utils/dateUtils";
 
-
 const EmployerTable = ({ data, currentPage, handleOnclick }) => {
   return (
     <>
@@ -25,15 +24,17 @@ const EmployerTable = ({ data, currentPage, handleOnclick }) => {
         <TableCell>Action</TableCell>
       </TableHead>
       <TableBody>
-        {data.map((employer: EmployerModel, index: number) => {
+        {data.map((employer: any, index: number) => {
+          console.log(employer);
+          
           const serialNumber = (currentPage - 1) * 10 + index + 1;
-          const name = employer.fullName || "N/A";
-          const organizationName = employer.organizationName || "N/A";
-          const email = employer.email || "N/A";
-          const phoneNumber = employer.phoneNumber || "N/A";
-          const contact = employer.contact || "N/A";
-          const employerId = employer.publicId;
-          const createdAt = employer.createdAt || new Date();
+          const name = employer?.user?.fullName || "N/A";
+          const organizationName = employer?.profile?.organizationName || "N/A";
+          const email = employer?.user?.email || "N/A";
+          const phoneNumber = employer?.user?.phoneNumber || "N/A";
+          const contact = employer?.user?.contact || "N/A";
+          const employerId = employer?.user?.publicId;
+          const createdAt = employer?.user?.createdAt || new Date();
 
           return (
             <TableRow key={index} className="border-b border-gray-100">
@@ -46,7 +47,9 @@ const EmployerTable = ({ data, currentPage, handleOnclick }) => {
               <TableCell>{employerId}</TableCell>
               <TableCell>
                 <div>{formatDate(createdAt)}</div>
-                <div className="mt-1 text-xs text-clayGray">{formatTime(createdAt)}</div>
+                <div className="mt-1 text-xs text-clayGray">
+                  {formatTime(createdAt)}
+                </div>
               </TableCell>
               <TableCell>
                 <button
@@ -65,4 +68,3 @@ const EmployerTable = ({ data, currentPage, handleOnclick }) => {
 };
 
 export default EmployerTable;
-

@@ -9,6 +9,7 @@ import {
 } from "../../../../../components/table/table";
 import { formatDate, formatTime } from "../../../../../utils/dateUtils";
 import StaffModel from "../../../../../models/staff";
+import useNavigateTo from "../../../../../hooks/useNavigateTo";
 
 const statusColors = {
   requested: "#DF9757",
@@ -17,7 +18,11 @@ const statusColors = {
   approved: "#409900",
 };
 
-const StaffTable = ({ data, currentPage, handleOnclick }) => {
+const StaffTable = ({ data, currentPage }) => {
+  const { navigateToStaffProfile } = useNavigateTo();
+  const handleOnclick = (id: string) => {
+    navigateToStaffProfile(id);
+  };
   return (
     <>
       <TableHead className="border-b !text-blue">
@@ -31,14 +36,14 @@ const StaffTable = ({ data, currentPage, handleOnclick }) => {
         <TableCell>Action</TableCell>
       </TableHead>
       <TableBody>
-        {data.map((staff: StaffModel, index: number) => {
+        {data.map((staff: any, index: number) => {
           const serialNumber = (currentPage - 1) * 10 + index + 1;
-          const name = staff.fullName || "N/A";
-          const phoneNumber = staff.phoneNumber || "N/A";
-          const bvn = staff.bvn || "N/A";
-          const status = staff.status;
-          const staffId = staff.publicId;
-          const createdAt = staff.createdAt || new Date();
+          const name = staff?.user?.fullName || "N/A";
+          const phoneNumber = staff?.user?.phoneNumber || "N/A";
+          const bvn = staff?.user?.bvn || "N/A";
+          const status = staff?.user?.status;
+          const staffId = staff?.user?.publicId;
+          const createdAt = staff?.user?.createdAt || new Date();
 
           return (
             <TableRow key={index} className="border-b border-gray-100">

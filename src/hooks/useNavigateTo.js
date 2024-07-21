@@ -24,7 +24,7 @@ const useNavigateTo = () => {
   };
 
   const navigateToStaffProfile = (staffId) => {
-    navigate(`/staff-management/staff-profile/${staffId}`);
+    navigate(`/user-management/${staffId}`);
   };
 
   const navigateToSettings = () => {
