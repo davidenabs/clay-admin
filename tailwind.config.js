@@ -102,6 +102,7 @@ export default {
       },
       fontFamily: {
         workSan: ["Work Sans", "sans-serif"],
+        disket: ["Disket Mono", "sans-serif"],
       },
     },
   },

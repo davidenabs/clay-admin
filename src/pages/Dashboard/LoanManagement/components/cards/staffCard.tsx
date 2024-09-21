@@ -9,8 +9,7 @@ import { images } from "../../../../../assets";
 import Breadcrumb from "../../../../../components/breadcrumb";
 import Divider from "../../../../../components/divider";
 import { showErrorToast } from "../../../../../utils/toast";
-import Gravatar from 'react-gravatar';
-
+import Gravatar from "react-gravatar";
 
 function StaffCard(props) {
   const loading = props.loading;
@@ -92,11 +91,15 @@ function StaffCard(props) {
         <>
           <div className="flex gap-3 items-start self-start pb-2 mt-7 ml-0 max-md:flex-wrap">
             <div className="relative">
-              {/* <img
-                src={images.oyinAvatar}
-                className="shrink-0 w-14 aspect-square"
-              /> */}
-              <Gravatar  email={user?.email} className="rounded-full" />
+              {user?.["profile"]?.profilePhotoPath ? (
+                <img
+                  src={user?.["profile"]?.profilePhotoPath}
+                  className="shrink-0 w-14 aspect-square"
+                />
+              ) : (
+                <Gravatar email={user?.email} className="rounded-full" />
+              )}
+
               <div className="flex absolute bottom-0 right-0 rounded-full bg-blue w-fit p-1 justify-center">
                 <img
                   src={images.checkIcon}
@@ -177,7 +180,7 @@ function StaffCard(props) {
                       src={images.usersIcon}
                       className="shrink-0 self-stretch my-auto w-5 aspect-square"
                     />
-                    
+
                     <div className="flex flex-col flex-1 self-stretch max-md:max-w-full">
                       <div className="text-xs text-clayGray max-md:max-w-full">
                         User ID

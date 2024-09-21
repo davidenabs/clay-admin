@@ -38,12 +38,13 @@ const ENDPOINTS = {
   },
   STAFFS_SPENDING_BY_ID: (transactionId) =>
     `/employer/transactions/staff/${transactionId}`,
-  STAFFS: (page = 1, itemsPerPage = 10) => {
+  STAFFS: (page = 1, itemsPerPage = 10,  search = "") => {
     const queryParams = generateQueryString({
       limit: itemsPerPage,
       page: page,
       sort: "createdAt",
       sortType: "desc",
+      search: search
     });
     return `${BASE_URL}/staffs?${queryParams}`;
   },
@@ -87,6 +88,7 @@ const ENDPOINTS = {
   UPDATE_CARD: (cardNumber) => `${BASE_URL}/cards/${cardNumber}/update`,
   STAFF_LOAN: `${BASE_URL}/loan/staff-apply`,
   CREATE_CARD: `${BASE_URL}/cards`,
+  UPDATE_STAFF: (staffId) => `${BASE_URL}/staffs/${staffId}`,
   // update /loan/staff-apply cards
 };
 

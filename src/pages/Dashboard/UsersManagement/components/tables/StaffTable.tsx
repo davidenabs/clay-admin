@@ -1,14 +1,11 @@
-import React from "react";
-// import { StaffModel } from "../../../../../models/user";
+import * as React from "react";
 import {
-  Table,
   TableHead,
   TableBody,
   TableRow,
   TableCell,
 } from "../../../../../components/table/table";
 import { formatDate, formatTime } from "../../../../../utils/dateUtils";
-import StaffModel from "../../../../../models/staff";
 import useNavigateTo from "../../../../../hooks/useNavigateTo";
 
 const statusColors = {
@@ -29,6 +26,7 @@ const StaffTable = ({ data, currentPage }) => {
         <TableCell className="pl-12">S/N</TableCell>
         <TableCell>Name</TableCell>
         <TableCell>Phone Number</TableCell>
+        <TableCell>Organization</TableCell>
         <TableCell>BVN</TableCell>
         <TableCell>Status</TableCell>
         <TableCell>Staff ID</TableCell>
@@ -45,11 +43,15 @@ const StaffTable = ({ data, currentPage }) => {
           const staffId = staff?.user?.publicId;
           const createdAt = staff?.user?.createdAt || new Date();
 
+          // const employerId = staff?.user?.bvn || "N/A";
+          const organizationName = staff?.employer?.organizationName || "N/A";
+
           return (
             <TableRow key={index} className="border-b border-gray-100">
               <TableCell className="pl-12">{serialNumber}</TableCell>
               <TableCell>{name}</TableCell>
               <TableCell>{phoneNumber}</TableCell>
+              <TableCell>{organizationName}</TableCell>
               <TableCell>{bvn}</TableCell>
               <TableCell>
                 <div

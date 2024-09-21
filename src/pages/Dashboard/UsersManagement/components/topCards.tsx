@@ -32,12 +32,12 @@ function TopCards(props) {
   const { staffs, employers, merchants, admins } = props;
   const data = [
     {
-      title: "Employers",
+      title: "Staffs",
       value: staffs,
       color: "lightBrown",
     },
     {
-      title: "Staffs",
+      title: "Employers",
       value: employers,
       color: "yellow-400",
     },

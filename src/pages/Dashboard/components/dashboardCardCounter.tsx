@@ -75,7 +75,7 @@ const DashboardCardCounter = (props: Props) => {
           />
         </svg>
       ),
-      value: lLoading ? "0" : `${formatNumber(loan?.repaymentAmount || 0)}`,
+      value: lLoading ? "0" : `${formatNumber(0)}`,
       label: "Repayment Balance",
       bgColor: "bg-[#FFA5A5]",
       route: "/loan-management",
@@ -123,7 +123,7 @@ const DashboardCardCounter = (props: Props) => {
           />
         </svg>
       ),
-      value: `₦${formatNumber(10000.0)}`,
+      value: `₦${formatNumber(0)}`,
       label: "Aggregated Credit Limit",
       bgColor: "bg-[#444683]",
       route: "",

@@ -27,3 +27,14 @@
 }
 @tailwind components;
 @tailwind utilities;
+
+
+/* @layer base { */
+  @font-face {
+    font-family: 'Disket Mono';
+    /* font-style: bold;
+    font-weight: 400;
+    font-display: swap; */
+    src: url(../src/assets/fonts/disket/Disket-Mono-Bold.ttf) format('otf');
+  }
+/* } */

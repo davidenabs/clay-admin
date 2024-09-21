@@ -62,6 +62,7 @@ import ngFlag from "./icon/ng-flag.png";
 import marketTrend from "./bg/market-trend.svg";
 import creditCard from "./vector/credit-card.png";
 import profile from "./icon/profile.png";
+import cardBg from "./bg/card-bg.png";
 
 export default {
   clayLogo,
@@ -131,4 +132,5 @@ export default {
 
   /* Vectors */
   creditCard,
+  cardBg,
 };

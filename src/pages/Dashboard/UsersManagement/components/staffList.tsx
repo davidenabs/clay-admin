@@ -1,51 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Divider from "../../../../components/divider";
-import {
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "../../../../components/table/table";
+import { Table } from "../../../../components/table/table";
 import useSearch from "../../../../hooks/useSearch";
 import useNavigateTo from "../../../../hooks/useNavigateTo";
 import Pagination from "../../LoanManagement/components/pagination";
 import InputField from "../../../../components/form/input";
-import { formatDate, formatTime } from "../../../../utils/dateUtils";
 import { Loader } from "rizzui";
-import StaffModel, { IStaff } from "../../../../models/staff";
-import {
-  AdminModel,
-  EmployerModel,
-  MerchantModel,
-} from "../../../../models/user";
 import StaffTable from "./tables/StaffTable";
 import MerchantTable from "./tables/MerchantTable";
-import AdminTable from "./tables/AdminTable";
 import EmployerTable from "./tables/EmployerTable";
+import StaffWithoutEmployerTable from "./tables/StaffWithoutEmployerTable";
 
-const statusColors = {
-  requested: "#DF9757",
-  pending: "#FFD329",
-  rejected: "#D70000",
-  approved: "#409900",
-};
-
-interface StaffListProps {
-  staffs: any;
-  employers: IStaff[];
-  merchants: IStaff[];
-  admins: IStaff[];
-  totalStaffPages: number;
-  totalEmployerPages: number;
-  totalMerchantPages: number;
-  totalAdminPages: number;
-  isLoading: boolean;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
-}
-
-const StaffList: React.FC<StaffListProps> = ({
+const StaffList = ({
   staffs,
   employers,
   merchants,
@@ -57,42 +23,33 @@ const StaffList: React.FC<StaffListProps> = ({
   isLoading,
   currentPage,
   setCurrentPage,
+  setSearch,
+  search
 }) => {
   const { navigateToStaffProfile } = useNavigateTo();
   const [activeTab, setActiveTab] = useState("Staff");
   const [models, setModels] = useState<any[]>([]);
 
-  const {
-    searchQuery,
-    setSearchQuery,
-    filteredData: filteredModels,
-  } = useSearch(models, [
-    "publicId",
-    "fullName",
-    "email",
-    "phoneNumber",
-    "bvn",
-  ]);
-
+  // const {
+  //   searchQuery,
+  //   setSearchQuery,
+  //   filteredData: filteredModels,
+  // } = useSearch(models, ["publicId", "fullName", "email", "phoneNumber", "bvn"]);
+const filteredModels = models;
   useEffect(() => {
-    const mapToModel = (data: any[], modelClass?: any) => 
-      data.map((item: any) => modelClass ? new modelClass(item) : item);
-    
+    const mapToModel = (data, modelClass) =>
+      data.map((item) => (modelClass ? new modelClass(item) : item));
 
-    let dataToMap: any[] = [];
-    let modelClass: any;
+    let dataToMap = [];
+    let modelClass;
     switch (activeTab) {
-      // case "Admin":
-      //   dataToMap = admins;
-      //   modelClass = AdminModel;
-      //   break;
       case "Employer":
         dataToMap = employers;
         modelClass = null;
         break;
       case "Merchant":
         dataToMap = merchants;
-        modelClass = MerchantModel;
+        modelClass = null;
         break;
       case "Staff":
         dataToMap = staffs;
@@ -100,7 +57,7 @@ const StaffList: React.FC<StaffListProps> = ({
         break;
       default:
         dataToMap = staffs;
-        modelClass = null; // Default to StaffModel for mixed data
+        modelClass = null;
         break;
     }
 
@@ -108,33 +65,23 @@ const StaffList: React.FC<StaffListProps> = ({
     setModels(instances);
   }, [staffs, employers, merchants, admins, activeTab]);
 
-  const handleOnclick = (id: string) => {
+  const handleOnclick = (id) => {
     navigateToStaffProfile(id);
   };
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const tabs = ["Staff", "Employer", "Merchant"];
+  const tabs = ["Staff", "Staff (with employer)", "Employer", "Merchant"];
 
-  const handleTabChange = (tab: string) => {
+  const handleTabChange = (tab) => {
     setActiveTab(tab);
-    setCurrentPage(1); // Reset to the first page when tab changes
+    setCurrentPage(1);
   };
-
-  const displayedStaffs = filteredModels;
 
   const renderTable = () => {
     switch (activeTab) {
-      // case "Admin":
-      //   return (
-      //     <AdminTable
-      //       data={filteredModels}
-      //       currentPage={currentPage}
-      //       handleOnclick={handleOnclick}
-      //     />
-      //   );
       case "Employer":
         return (
           <EmployerTable
@@ -152,19 +99,11 @@ const StaffList: React.FC<StaffListProps> = ({
           />
         );
       case "Staff":
-        return (
-          <StaffTable
-            data={filteredModels}
-            currentPage={currentPage}
-          />
-        );
+        return <StaffTable data={filteredModels} currentPage={currentPage} />;
+      case "Staff (with employer)":
+        return <StaffWithoutEmployerTable data={filteredModels} currentPage={currentPage} />;
       default:
-        return (
-          <StaffTable
-            data={filteredModels}
-            currentPage={currentPage}
-          />
-        );
+        return <StaffTable data={filteredModels} currentPage={currentPage} />;
     }
   };
 
@@ -193,8 +132,8 @@ const StaffList: React.FC<StaffListProps> = ({
           label=""
           type="search"
           name="search"
-          value={searchQuery}
-          onChange={(e: any) => setSearchQuery(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder={"Search staffs..."}
           error={""}
           className="!rounded-full !border-clayGray"
@@ -206,7 +145,7 @@ const StaffList: React.FC<StaffListProps> = ({
         <div className="flex justify-center my-auto py-10">
           <Loader variant="pulse" />
         </div>
-      ) : displayedStaffs.length === 0 ? (
+      ) : filteredModels.length === 0 ? (
         <div className="text-center my-auto p-10 text-clayGray">
           No staffs found
         </div>
@@ -216,20 +155,11 @@ const StaffList: React.FC<StaffListProps> = ({
           <Pagination
             currentPage={currentPage}
             totalPages={
-              activeTab === "Admin"
-                ? totalAdminPages
-                : activeTab === "Employer"
+              activeTab === "Employer"
                 ? totalEmployerPages
                 : activeTab === "Merchant"
                 ? totalMerchantPages
-                : activeTab === "Staff"
-                ? totalStaffPages
-                : Math.max(
-                    totalAdminPages,
-                    totalEmployerPages,
-                    totalMerchantPages,
-                    totalStaffPages
-                  )
+                : totalStaffPages
             }
             onPageChange={handlePageChange}
           />

@@ -9,14 +9,17 @@ const useSearch = (data, searchFields) => {
       setFilteredData(data);
     } else {
       const query = searchQuery.toLowerCase();
+     
       const filtered = data.filter((item) =>
-        searchFields.some((field) =>
-          String(item[field]).toLowerCase().includes(query)
+        searchFields.some((field) => {
+          return String(item.user[field]).toLowerCase().includes(query);
+        }
+          
         )
       );
       setFilteredData(filtered);
     }
-  }, [searchQuery, data, searchFields]);
+  }, [searchQuery, data]);
 
   return { searchQuery, setSearchQuery, filteredData };
 };

@@ -15,9 +15,10 @@ import LoanManagement from "./pages/Dashboard/LoanManagement/Index";
 import StaffProfile from "./pages/Dashboard/UsersManagement/StaffProfile";
 import SettingsProfile from "./pages/Dashboard/Settings/Profile";
 import SettingsProfilePreview from "./pages/Dashboard/Settings/ProfilePreview";
-import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
+// import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
 import StaffDetailsAndTransactions from "./pages/Dashboard/LoanManagement/StaffDetailsAndTransactions";
 import PageNotFound from "./pages/Error/PageNotFound";
+import ProtectedRoute from "./ProtectedRoute";
 
 const MyRoutes = () => (
   <Routes>
@@ -34,13 +35,11 @@ const MyRoutes = () => (
         element={<PageNotFound />}
       />
     </Route>
-    <Route element={<AuthOutlet fallbackPath='/login' />}>
+    <Route element={<ProtectedRoute />}>
       <Route element={<AppLayout />}>
-        {/* Dashboard Routes */}
         <Route path="/dashboard" element={<Home />} />
         <Route path="/user-management" element={<UsersManagement />} />
         <Route path="/user-management/:userId" element={<StaffProfile />} />
-        {/* <Route path="/staff-management/staff-profile/:staffId" element={<StaffProfile />} /> */}
         <Route path="/loan-management" element={<LoanManagement />} />
         <Route path="/loan-management/staff-transaction-history" element={<StaffTransactionHistory />} />
         <Route path="/loan-management/user/:id" element={<StaffDetailsAndTransactions />} />
@@ -55,9 +54,9 @@ const MyRoutes = () => (
 
 const AppRoutes = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <MyRoutes />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 

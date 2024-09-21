@@ -23,36 +23,45 @@ const UsersManagement = () => {
   const itemsPerPage = 10;
   const apiManager = createApiManager();
 
+
+  const [search, setSearch] = useState("");
+  const [debounceSearch, setDebounceSeaarch] = useState('')
+
   useEffect(() => {
-    const fetchUsers = async (page) => {
+    if (!search) return
+
+    setTimeout(() => {
+      setDebounceSeaarch(search)
+    }, 3000);
+
+  }, [search]);
+
+  useEffect(() => {
+    const fetchUsers = async (page, debounceSearch) => {
       setIsLoading(true);
+      // console.log(debounceSearch)
       try {
         const [
           fetchedStaffs,
           fetchedEmployers,
           fetchedMerchants,
-          // fetchedAdmins,
         ] = await Promise.all([
-          apiManager.getStaffs(page, itemsPerPage),
+          apiManager.getStaffs(page, itemsPerPage, debounceSearch),
           apiManager.getEmployers(page, itemsPerPage),
           apiManager.getMerchants(page, itemsPerPage),
-          // apiManager.getAdmins(page, itemsPerPage),
         ]);
 
         setStaffs(fetchedStaffs.data.users);
         setEmployers(fetchedEmployers.data.users);
         setMerchants(fetchedMerchants.data.users);
-        // setAdmins(fetchedAdmins.data.users);
 
         setTotalStaffPages(fetchedStaffs.data.totalPages);
         setTotalEmployerPages(fetchedEmployers.data.totalPages);
         setTotalMerchantPages(fetchedMerchants.data.totalPages);
-        // setTotalAdminPages(fetchedAdmins.data.totalPages);
 
         setTotalStaffTotalItems(fetchedStaffs.data.totalItems);
         setTotalEmployerTotalItems(fetchedEmployers.data.totalItems);
-        setTotalMerchantTotalItems(fetchedMerchants.data.totalUsers);
-        // setTotalAdminTotalItems(fetchedAdmins.data.totalItems);
+        setTotalMerchantTotalItems(fetchedMerchants.data.totalItems);
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -60,13 +69,11 @@ const UsersManagement = () => {
       }
     };
 
-    fetchUsers(currentPage);
-  }, [currentPage]);
+    fetchUsers(currentPage, debounceSearch);
+  }, [currentPage, debounceSearch]);
 
   const handlePageChange = (newPage) => {
-    // if (newPage >= 1 && newPage <= totalPages) {
-    //   setCurrentPage(newPage);
-    // }
+    setCurrentPage(newPage);
   };
 
   return (
@@ -75,7 +82,6 @@ const UsersManagement = () => {
         staffs={totalStaffTotalItems}
         employers={totalEmployerTotalItems}
         merchants={totalMerchantTotalItems}
-        // admins={totalAdminTotalItems}
       />
       <StaffList
         staffs={staffs}
@@ -86,11 +92,14 @@ const UsersManagement = () => {
         currentPage={currentPage}
         totalStaffPages={totalStaffPages}
         totalEmployerPages={totalEmployerPages}
-        totalMerchantPages={totalMerchantPages} 
-        totalAdminPages={0} 
-        setCurrentPage={handlePageChange}          // onPageChange={handlePageChange}
+        totalMerchantPages={totalMerchantPages}
+        totalAdminPages={0}
+        setCurrentPage={handlePageChange}
+        setSearch={setSearch}
+        search={search}
+        
       />
-      <div>&nbsp;</div>
+      <div></div>
     </div>
   );
 };

@@ -35,3 +35,21 @@ export const formatNumberWithCommas = (num) => {
 export const getPrefix = (str) => {
   return str.split("_")[0];
 };
+
+export const updateFormState = (setFormState, field, value) => {
+  setFormState((prevState) => ({
+    ...prevState,
+    [field]: value,
+  }));
+};
+
+export  function formatString(input) {
+  const prefix = 'CUS_';
+  if (input.startsWith(prefix)) {
+    // Keep the prefix intact and convert the rest to lowercase
+    return prefix + input.slice(prefix.length).toLowerCase();
+  }
+  // If input doesn't start with 'CUS_', return the input as-is or handle the case
+  return input.toLowerCase();
+}
+

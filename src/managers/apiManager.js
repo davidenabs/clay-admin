@@ -22,10 +22,11 @@ const createApiManager = () => {
       const url = ENDPOINTS.STAFFS_SPENDING_BY_ID(transactionId);
       return await get(url);
     }),
-    getStaffs: memoize(async (page = 1, itemsPerPage = 10) => {
-      const url = ENDPOINTS.STAFFS(page, itemsPerPage);
+    getStaffs: async (page = 1, itemsPerPage = 10, search ='') => {
+      const url = ENDPOINTS.STAFFS(page, itemsPerPage, search);
+      // console.log(url)
       return await get(url);
-    }),
+    },
     getEmployers: memoize(async (page = 1, itemsPerPage = 10) => {
       const url = ENDPOINTS.EMPLOYERS(page, itemsPerPage);
       return await get(url);
@@ -63,10 +64,10 @@ const createApiManager = () => {
       }
     ),
 
-    getStaffs: memoize(async (page = 1, itemsPerPage = 10) => {
-      const url = ENDPOINTS.STAFFS(page, itemsPerPage);
-      return await get(url);
-    }),
+    // getStaffs: memoize(async (page = 1, itemsPerPage = 10) => {
+    //   const url = ENDPOINTS.STAFFS(page, itemsPerPage);
+    //   return await get(url);
+    // }),
     verifyBvn: memoize(async (data) => {
       const url = ENDPOINTS.VERIFY_BVN;
       return await post(url, data);
@@ -121,10 +122,14 @@ const createApiManager = () => {
       return await post(url, data);
     }),
     createCard: memoize(async (data) => {
+      console.log(data);
       const url = ENDPOINTS.CREATE_CARD;
       return await post(url, data);
     }),
-    //
+    updateStaff: memoize(async (staffId, data) => {
+      const url = ENDPOINTS.UPDATE_STAFF(staffId);
+      return await put(url, data);
+    }),
   };
 };
 // STAFFS

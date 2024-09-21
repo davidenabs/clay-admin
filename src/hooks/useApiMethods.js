@@ -14,7 +14,10 @@ const useApiMethods = () => {
   const authToken = useAuthHeader();
 
   const getHeaders = () => ({
+    // mode: 'no-cors',
     "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "trues",
+    "User-Agent": "CustomUserAgent/1.0",
     Authorization: authToken,
   });
 
@@ -28,6 +31,7 @@ const useApiMethods = () => {
     try {
       if (body) {
         response = await fetch(url, {
+          // mode: 'no-cors',
           method,
           headers: getHeaders(),
           body: body !== null ? JSON.stringify(body) : undefined, // Omit unnecessary body

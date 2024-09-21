@@ -5,6 +5,9 @@ interface FormState {
   pin: number | null;
   percentageCharge: number | null;
   cardholderName: string;
+  fullName: string | null;
+  employerId: string | null;
+  status: string | null;
 }
 
 export const defaultFormState: FormState = {
@@ -12,6 +15,9 @@ export const defaultFormState: FormState = {
   pin: null,
   percentageCharge: null,
   cardholderName: "",
+  fullName: "",
+  employerId: "",
+  status: "",
 };
 
 export const userAccountAtom = atom(defaultFormState);
